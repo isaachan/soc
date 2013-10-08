@@ -44,46 +44,45 @@ void inscreaseMin() {
 
 void checkHourConfigButton() {
   unsigned char keyPressNum = 0;
-  if (!KEY_HOURS) {
+  if (KEY_HOURS) return;
+  delayMs(10);
+  if (KEY_HOURS) return;
+  
+  while(!KEY_HOURS) {
+    keyPressNum++;
     delayMs(10);
-    if (!KEY_HOURS) {
-      while(!KEY_HOURS) {
-        keyPressNum++;
-        delayMs(10);
-        if (keyPressNum == 100) {
-          keyPressNum = 0;
-          while (!KEY_HOURS) {
-            inscreaseHour();
-            setupDisplayContent();
-            delayMs(50);
-          }
-        }
-      }
+    if (keyPressNum < 100) continue;
+    
+    keyPressNum = 0;
+    while (!KEY_HOURS) {
       inscreaseHour();
+      setupDisplayContent();
+      delayMs(50);
     }
   }
+  inscreaseHour();
+  
 }
 
 void checkMinConfigButton() {
   unsigned char keyPressNum = 0;
-  if (!KEY_MINS) {
+  if (KEY_MINS) return; 
+  delayMs(10);
+  if (KEY_MINS) return;
+
+  while(!KEY_MINS) {
+    keyPressNum++;
     delayMs(10);
-    if (!KEY_MINS) {
-      while(!KEY_MINS) {
-        keyPressNum++;
-        delayMs(10);
-        if (keyPressNum == 100) {
-          keyPressNum = 0;
-          while (!KEY_MINS) {
-            inscreaseMin();
-            setupDisplayContent();
-            delayMs(50);
-          }
-        }
-      }
+    if (keyPressNum < 100) continue; 
+
+    keyPressNum = 0;
+    while (!KEY_MINS) {
       inscreaseMin();
+      setupDisplayContent();
+      delayMs(50);
     }
   }
+  inscreaseMin();
 }
 
 void main(void) {

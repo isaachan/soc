@@ -27,40 +27,86 @@ void delayUs2x(unsigned char t);
 void delayMs(unsigned char t);
 void display(unsigned char firstBit, unsigned char num);
 void initTimer0(void);
+void setupDisplayContent();
+void inscreaseHour();
+void checkHourConfigButton();
+void checkMinConfigButton();
 
+void inscreaseHour() {
+  hours++;
+  if (hours == 24) hours = 0;
+}
+
+void inscreaseMin() {
+  mins++;
+  if (mins == 60) mins = 0;
+}
+
+void checkHourConfigButton() {
+  unsigned char keyPressNum = 0;
+  if (!KEY_HOURS) {
+    delayMs(10);
+    if (!KEY_HOURS) {
+      while(!KEY_HOURS) {
+        keyPressNum++;
+        delayMs(10);
+        if (keyPressNum == 100) {
+          keyPressNum = 0;
+          while (!KEY_HOURS) {
+            inscreaseHour();
+            setupDisplayContent();
+            delayMs(50);
+          }
+        }
+      }
+      inscreaseHour();
+    }
+  }
+}
+
+void checkMinConfigButton() {
+  unsigned char keyPressNum = 0;
+  if (!KEY_MINS) {
+    delayMs(10);
+    if (!KEY_MINS) {
+      while(!KEY_MINS) {
+        keyPressNum++;
+        delayMs(10);
+        if (keyPressNum == 100) {
+          keyPressNum = 0;
+          while (!KEY_MINS) {
+            inscreaseMin();
+            setupDisplayContent();
+            delayMs(50);
+          }
+        }
+      }
+      inscreaseMin();
+    }
+  }
+}
 
 void main(void) {
+
   KEY_HOURS = 1;
   initTimer0();
 
   while(1) {
-    if (!KEY_HOURS) {
-      delayMs(10);
-      if (!KEY_HOURS) {
-        while(!KEY_HOURS);
-        hours++;
-        if (hours == 24) hours = 0;
-      }
-    }
-
-    if (!KEY_MINS) {
-      delayMs(10);
-      if (!KEY_MINS) {
-        while(!KEY_MINS);
-        mins++;
-        if (mins == 60) mins = 0;
-      }
-    }
-
-    tempData[0] = duanMa[hours/10];
-    tempData[1] = duanMa[hours%10];
-    tempData[2] = 0x40;
-    tempData[3] = duanMa[mins/10];
-    tempData[4] = duanMa[mins%10];
-    tempData[5] = 0x40;
-    tempData[6] = duanMa[seconds/10];
-    tempData[7] = duanMa[seconds%10];
+    checkHourConfigButton();
+    checkMinConfigButton();
+    setupDisplayContent();
   }
+}
+
+void setupDisplayContent() {
+  tempData[0] = duanMa[hours/10];
+  tempData[1] = duanMa[hours%10];
+  tempData[2] = 0x40;
+  tempData[3] = duanMa[mins/10];
+  tempData[4] = duanMa[mins%10];
+  tempData[5] = 0x40;
+  tempData[6] = duanMa[seconds/10];
+  tempData[7] = duanMa[seconds%10];
 }
 
 void delayUs2x(unsigned char t) {

@@ -1,0 +1,24 @@
+<html>
+<body>
+<pre>
+<h1>µVision2 Build Log</h1>
+<h2>Project:</h2>
+C:\Users\isaachan\Code\soc\lattice\lattice.uv2
+Project File Date:  10/13/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(1): error C129: missing ';' before '<'
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=9.0 xdata=0 code=16
+"lattice" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=9.0 xdata=0 code=16
+creating hex file from "lattice"...
+"lattice" - 0 Error(s), 0 Warning(s).
